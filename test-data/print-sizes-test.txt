@@ -1,0 +1,14 @@
+size of char is 1
+size of short is 2
+size of int is 4
+size of long is 8
+size of long long is 8
+size of float is 4
+size of double is 8
+size of char * is 8
+size of int * is 8
+size of long * is 8
+The size of my character array is 200
+The size of my character pointer is 8
+The size of my int pointer is 8
+The size of what my integer pointer points at is 4
