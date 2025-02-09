@@ -1,0 +1,65 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test print addresses
+      id: test-print-addresses
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test print addresses
+        setup-command: ''
+        command: make test-print-addresses
+        timeout: 10
+    - name: Test print-low
+      id: test-print-low
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test print-low
+        setup-command: ''
+        command: make test-print-low
+        timeout: 10
+    - name: Test print-byte1
+      id: test-print-byte1
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test print-byte1
+        setup-command: ''
+        command: make test-print-byte1
+        timeout: 10
+    - name: Test listing addresses
+      id: test-listing-addresses
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test listing addresses
+        setup-command: ''
+        command: make test-list-addresses
+        timeout: 10
+    - name: Test print sizes
+      id: test-print-sizes
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test print sizes
+        setup-command: ''
+        command: make test-print-sizes
+        timeout: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST-PRINT-ADDRESSES_RESULTS: "${{steps.test-print-addresses.outputs.result}}"
+        TEST-PRINT-LOW_RESULTS: "${{steps.test-print-low.outputs.result}}"
+        TEST-PRINT-BYTE1_RESULTS: "${{steps.test-print-byte1.outputs.result}}"
+        TEST-LISTING-ADDRESSES_RESULTS: "${{steps.test-listing-addresses.outputs.result}}"
+        TEST-PRINT-SIZES_RESULTS: "${{steps.test-print-sizes.outputs.result}}"
+      with:
+        runners: test-print-addresses,test-print-low,test-print-byte1,test-listing-addresses,test-print-sizes
